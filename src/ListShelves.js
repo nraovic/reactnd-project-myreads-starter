@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
+import sortBy from 'sort-by'
+import escapeRegExp from 'escape-string-regexp'
 //Helper function
 //From Shelf name to Book shelf property name
 
@@ -15,31 +17,51 @@ console.log(result)
 class ListShelves extends Component {
 
     state = {
-        shelf: '',
-        book: {
-            shelf: ''
-        }
+        query: ''
     }
-
+    searchResaults = () =>
+    {
+        //This should show the results of the search, div elements and so on... 
+        //This shpuld be a component?
+    }
+    updateQuery = (query) => {
+        this.setState({ query: query.trim() })
+        BooksAPI.search(query).then((resaults) => {this.searchResaults()})
+    }
     updateShelf = (shelf, book) => {
-        this.setState ({shelf: shelf.trim(),
-                        book: {
-                            shelf: shelf
-                        }
-                      })
+        this.setState((state) => ({
+            option: shelf.trim(),
+            newShelf: this.props.allBooks[this.props.allBooks.indexOf(book)].shelf = shelf
+
+        }))
         BooksAPI.update(shelf, book).then(() => { console.log(book, shelf) })
+
     }
     render() {
      return (
-         <div className="list-books">
-             <div className="list-books-title">
-                 <h1>MyReads</h1>
-                 {JSON.stringify(this.state)}
-            </div>
-             <div className="list-books-content">
+         <div className="app">
+            {this.state.showSearchPage ? (
+                <div className="search-books">
+                    <div className="search-books-bar">
+                        <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+                        <div className="search-books-input-wrapper">
+                            <input type="text" placeholder="Search by title or author" value={this.state.query} onChange={(event) => this.updateQuery(event.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="search-books-results">
+                        <ol className="books-grid"></ol>
+                    </div>
+                </div>
+            ) : (
+                <div className="list-books">
+                    <div className="list-books-title">
+                        <h1>MyReads</h1>
+                        {JSON.stringify(this.state)}
+                    </div>
+                    <div className="list-books-content">
                         {this.props.allBooks
                             .map((book) => book.shelf)
-                            .filter((shelf, index, array) => array.indexOf(shelf) === index)
+                            .filter((shelf, index, array) => array.indexOf(shelf) === index).sort()
                             .map( (shelf, index) => (
                             <div key={index} className="bookshelf">
                                     <h2 className="bookshelf-title">{toShelfTitle(shelf)}</h2>
@@ -51,7 +73,7 @@ class ListShelves extends Component {
                                                 <div className="book-top">
                                                     <div className="book-cover" style={{ backgroundImage: `url(${book.imageLinks.thumbnail})`, width: 128, height: 188 }} />
                                                     <div className="book-shelf-changer">
-                                                        <select value={this.state.shelf} onChange={(event) => this.updateShelf(event.target.value, book)}>
+                                                        <select value={shelf} onChange={(event) => this.props.onChangeShelf(event.target.value, book)}>
                                                             <option value="none" disabled>Move to...</option>
                                                             <option value="currentlyReading">Currently Reading</option>
                                                             <option value="wantToRead">Want to Read</option>
@@ -68,11 +90,17 @@ class ListShelves extends Component {
                                     )}
                                 </ol>
                             </div>
-                    ))
-                    }
+                            ))
+                        }
                     </div>
+                         <div className="open-search">
+                             <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+                         </div>
                 </div>
-                    )
+
+                )}
+            </div>
+        )
     }
 }
 /*

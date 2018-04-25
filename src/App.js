@@ -10,17 +10,16 @@ class App extends Component {
 
   state = {
     books:[],
+    newShelf: '',
   }
 
   //Update books state based on the option value of the option that's been clicked on
   changeShelf = (shelf, book) => {
-    this.setState(() => ({
-      shelf: event.target.value,
+    this.setState((state) => ({
+      newShelf: state.books[state.books.indexOf(book)].shelf = shelf.trim()
     }))
     BooksAPI.update(shelf, book).then(()=>{console.log(book, shelf)})
   }
-
-
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
@@ -29,8 +28,9 @@ class App extends Component {
   }
   render() {
     return (
+      
       <div> 
-        <ListShelves allBooks={this.state.books} onChangeShelf={this.changeShelf}/>
+        <ListShelves allBooks={this.state.books} newShelf={this.state.newShelf} onChangeShelf={this.changeShelf}/>
       </div>
     )
   }
