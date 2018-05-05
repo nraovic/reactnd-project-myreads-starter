@@ -1,38 +1,52 @@
-import React, {Component} from 'react'
-import * as BooksAPI from './BooksAPI'
-import './App.css'
-import ListShelves from './ListShelves'
+import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
+import './App.css';
+import ListShelves from './ListShelves';
+import ShowSearchResults from './ShowSearchResults';
 
-
-BooksAPI.getAll().then((books) => console.log(books));
+BooksAPI.getAll().then(books => console.log(books));
 
 class App extends Component {
-
   state = {
-    books:[],
+    books: [],
     newShelf: '',
-  }
+    showSearchPage: false
+  };
 
   //Update books state based on the option value of the option that's been clicked on
   changeShelf = (shelf, book) => {
-    this.setState((state) => ({
-      newShelf: state.books[state.books.indexOf(book)].shelf = shelf.trim()
-    }))
-    BooksAPI.update(shelf, book).then(()=>{console.log(book, shelf)})
-  }
+    this.setState(state => ({
+      newShelf: (state.books[state.books.indexOf(book)].shelf = shelf.trim())
+    }));
+    BooksAPI.update(shelf, book).then(() => {
+      console.log(book, shelf);
+    });
+  };
 
+  openSearch = () => {
+    this.setState(() => ({ showSearchPage: true }));
+    console.log('Ura');
+  };
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {
-      this.setState({books: books})
-    })
+    BooksAPI.getAll().then(books => {
+      this.setState({ books: books });
+    });
   }
   render() {
     return (
-      
-      <div> 
-        <ListShelves allBooks={this.state.books} newShelf={this.state.newShelf} onChangeShelf={this.changeShelf}/>
+      <div>
+        {this.state.showSearchPage ? (
+          <ShowSearchResults showSearchPage={this.state.showSearchPage} books={this.state.books} />
+        ) : (
+          <ListShelves
+            allBooks={this.state.books}
+            newShelf={this.state.newShelf}
+            onChangeShelf={this.changeShelf}
+            onOpenSearch={this.openSearch}
+          />
+        )}
       </div>
-    )
+    );
   }
 }
 
@@ -46,7 +60,7 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    /*
+/*
     showSearchPage: false
   }
 
@@ -66,7 +80,7 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */
-               /*}
+/*}
                 <input type="text" placeholder="Search by title or author"/>
 
               </div>
