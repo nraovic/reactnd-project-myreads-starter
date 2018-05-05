@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as BooksAPI from './BooksAPI';
 import sortBy from 'sort-by';
 import escapeRegExp from 'escape-string-regexp';
+import Book from './Book.js';
 
 //Helper function
 //From Shelf name to Book shelf property name
@@ -35,6 +36,7 @@ class ListShelves extends Component {
 
   render() {
     /* Get all shelves from the current list of Books and sort them alphabetically */
+    const onChangeShelf = this.props.onChangeShelf;
     const currentShelves = this.props.allBooks
       .map(book => book.shelf)
       .filter((shelf, index, array) => array.indexOf(shelf) === index)
@@ -52,30 +54,7 @@ class ListShelves extends Component {
                 <ol className="books-grid">
                   {this.props.allBooks.filter(book => book.shelf === shelf).map(book => (
                     <li key={book.id}>
-                      <div className="book">
-                        <div className="book-top">
-                          <div
-                            className="book-cover"
-                            style={{ backgroundImage: `url(${book.imageLinks.thumbnail})`, width: 128, height: 188 }}
-                          />
-                          <div className="book-shelf-changer">
-                            <select
-                              value={shelf}
-                              onChange={event => this.props.onChangeShelf(event.target.value, book)}
-                            >
-                              <option value="none" disabled>
-                                Move to...
-                              </option>
-                              <option value="currentlyReading">Currently Reading</option>
-                              <option value="wantToRead">Want to Read</option>
-                              <option value="read">Read</option>
-                              <option value="none">None</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="book-title">{book.title}</div>
-                        <div className="book-authors">{book.authors}</div>
-                      </div>
+                      <Book book={book} shelf={shelf} onChangeShelf={onChangeShelf} />
                     </li>
                   ))}
                 </ol>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as BooksAPI from './BooksAPI';
 import escapeRegExp from 'escape-string-regexp';
+import Book from './Book.js';
 
 function toShelfTitle(shelfName) {
   shelfName = shelfName.replace(/([A-Z])/g, ' $1').trim();
@@ -32,6 +33,8 @@ class ShowSearchResults extends Component {
     }
   };
   render() {
+    const onChangeShelf = this.props.onChangeShelf;
+    const currentShelves = this.props.allBooks;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -52,18 +55,7 @@ class ShowSearchResults extends Component {
             {this.state.results.length > 0 &&
               this.state.results.map(result => (
                 <li key={result.id}>
-                  <div className="book">
-                    <div className="book-top">
-                      {typeof result.imageLinks !== 'undefined' && (
-                        <div
-                          className="book-cover"
-                          style={{ backgroundImage: `url(${result.imageLinks.thumbnail})`, width: 128, height: 188 }}
-                        />
-                      )}
-                    </div>
-                    <div className="book-title">{result.title}</div>
-                    <div className="book-authors">{result.authors}</div>
-                  </div>
+                  <Book book={result} shelf={result.shelf} onChangeShelf={onChangeShelf} />
                 </li>
               ))}
             {this.state.searchErr && (

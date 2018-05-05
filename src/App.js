@@ -16,7 +16,7 @@ class App extends Component {
   //Update books state based on the option value of the option that's been clicked on
   changeShelf = (shelf, book) => {
     this.setState(state => ({
-      newShelf: (state.books[state.books.indexOf(book)].shelf = shelf.trim())
+      newShelf: (book.shelf = shelf.trim())
     }));
     BooksAPI.update(shelf, book).then(() => {
       console.log(book, shelf);
@@ -36,7 +36,12 @@ class App extends Component {
     return (
       <div>
         {this.state.showSearchPage ? (
-          <ShowSearchResults showSearchPage={this.state.showSearchPage} books={this.state.books} />
+          <ShowSearchResults
+            showSearchPage={this.state.showSearchPage}
+            books={this.state.books}
+            newShelf={this.state.newShelf}
+            onChangeShelf={this.changeShelf}
+          />
         ) : (
           <ListShelves
             allBooks={this.state.books}
