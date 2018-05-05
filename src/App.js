@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import './App.css';
 import ListShelves from './ListShelves';
@@ -35,21 +36,30 @@ class App extends Component {
   render() {
     return (
       <div>
-        {this.state.showSearchPage ? (
-          <ShowSearchResults
-            showSearchPage={this.state.showSearchPage}
-            books={this.state.books}
-            newShelf={this.state.newShelf}
-            onChangeShelf={this.changeShelf}
-          />
-        ) : (
-          <ListShelves
-            allBooks={this.state.books}
-            newShelf={this.state.newShelf}
-            onChangeShelf={this.changeShelf}
-            onOpenSearch={this.openSearch}
-          />
-        )}
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <ShowSearchResults
+              showSearchPage={this.state.showSearchPage}
+              books={this.state.books}
+              newShelf={this.state.newShelf}
+              onChangeShelf={this.changeShelf}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <ListShelves
+              allBooks={this.state.books}
+              newShelf={this.state.newShelf}
+              onChangeShelf={this.changeShelf}
+              onOpenSearch={this.openSearch}
+            />
+          )}
+        />
       </div>
     );
   }
