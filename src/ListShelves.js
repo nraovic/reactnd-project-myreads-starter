@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI';
-import sortBy from 'sort-by';
-import escapeRegExp from 'escape-string-regexp';
 import Book from './Book.js';
 
 //Helper function
@@ -14,27 +11,7 @@ function toShelfTitle(shelfName) {
   return shelfName;
 }
 
-var result = toShelfTitle('kako Da Ga Kunem Majko');
-console.log(result);
-
 class ListShelves extends Component {
-  state = {
-    query: '',
-    results: []
-  };
-
-  updateQuery = ev => {};
-
-  updateShelf = (shelf, book) => {
-    this.setState(state => ({
-      option: shelf.trim(),
-      newShelf: (this.props.allBooks[this.props.allBooks.indexOf(book)].shelf = shelf)
-    }));
-    BooksAPI.update(shelf, book).then(() => {
-      console.log(book, shelf);
-    });
-  };
-
   render() {
     /* Get all shelves from the current list of Books and sort them alphabetically */
     const onChangeShelf = this.props.onChangeShelf;

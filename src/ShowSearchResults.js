@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
-import escapeRegExp from 'escape-string-regexp';
 import Book from './Book.js';
-
-function toShelfTitle(shelfName) {
-  shelfName = shelfName.replace(/([A-Z])/g, ' $1').trim();
-  shelfName = shelfName[0].toUpperCase() + shelfName.substr(1);
-  return shelfName;
-}
 
 class ShowSearchResults extends Component {
   state = {
     query: '',
     results: [],
-    searchErr: false
+    searchError: false
   };
 
   updateQuery = event => {
@@ -23,14 +16,11 @@ class ShowSearchResults extends Component {
       query: query
     });
     console.log(query);
-    const books = this.props.books;
     if (query.length > 0) {
       BooksAPI.search(query).then(results => {
-        this.setState({ results: results, searchErr: results.length === 0 });
-        console.log(results);
+        this.setState({ results: results, searchError: results.hasOwnProperty('error') });
+        console.log(results, this.state.searchError);
       });
-    } else {
-      this.setState({ results: [], searchErr: true });
     }
   };
   render() {
@@ -39,7 +29,7 @@ class ShowSearchResults extends Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <Link to="/" className="close-search" onClick={() => this.setState({ showSearchPage: false })}>
+          <Link to="/" className="close-search">
             Close
           </Link>
           <div className="search-books-input-wrapper">
@@ -51,7 +41,7 @@ class ShowSearchResults extends Component {
             />
           </div>
         </div>
-        <div className="list-books-content">
+        <div className="list-books-content-search">
           <ol className="books-grid">
             {this.state.results.length > 0 &&
               this.state.results.map(result => (
@@ -59,11 +49,9 @@ class ShowSearchResults extends Component {
                   <Book books={books} book={result} shelf={result.shelf} onChangeShelf={onChangeShelf} />
                 </li>
               ))}
-            {this.state.searchErr && (
+            {this.state.searchError && (
               <div>
-                <div className="">
-                  <h3>Search returned 0 books. Please try again!</h3>
-                </div>
+                <h3>Sorry, no results were found. Please try another search.</h3>
               </div>
             )}
           </ol>
