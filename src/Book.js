@@ -4,7 +4,7 @@ import './App.css';
 class Book extends Component {
   state = {};
   render() {
-    const { book, shelf } = this.props;
+    const { book, shelf, books, onChangeShelf } = this.props;
     return (
       <div className="book">
         <div className="book-top">
@@ -15,7 +15,7 @@ class Book extends Component {
             />
           )}
           <div className="book-shelf-changer">
-            <select value={shelf} onChange={event => this.props.onChangeShelf(event.target.value, book)}>
+            <select value={shelf} onChange={event => this.props.onChangeShelf(event.target.value, book, books)}>
               <option value="none" disabled>
                 Move to...
               </option>

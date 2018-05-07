@@ -35,7 +35,7 @@ class ShowSearchResults extends Component {
   };
   render() {
     const onChangeShelf = this.props.onChangeShelf;
-    const currentShelves = this.props.allBooks;
+    const books = this.props.books;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -56,7 +56,7 @@ class ShowSearchResults extends Component {
             {this.state.results.length > 0 &&
               this.state.results.map(result => (
                 <li key={result.id}>
-                  <Book book={result} shelf={result.shelf} onChangeShelf={onChangeShelf} />
+                  <Book books={books} book={result} shelf={result.shelf} onChangeShelf={onChangeShelf} />
                 </li>
               ))}
             {this.state.searchErr && (

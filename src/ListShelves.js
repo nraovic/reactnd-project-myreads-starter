@@ -38,7 +38,7 @@ class ListShelves extends Component {
   render() {
     /* Get all shelves from the current list of Books and sort them alphabetically */
     const onChangeShelf = this.props.onChangeShelf;
-    const currentShelves = this.props.allBooks
+    const currentShelves = this.props.books
       .map(book => book.shelf)
       .filter((shelf, index, array) => array.indexOf(shelf) === index)
       .sort();
@@ -53,7 +53,7 @@ class ListShelves extends Component {
               <div key={index} className="bookshelf">
                 <h2 className="bookshelf-title">{toShelfTitle(shelf)}</h2>
                 <ol className="books-grid">
-                  {this.props.allBooks.filter(book => book.shelf === shelf).map(book => (
+                  {this.props.books.filter(book => book.shelf === shelf).map(book => (
                     <li key={book.id}>
                       <Book book={book} shelf={shelf} onChangeShelf={onChangeShelf} />
                     </li>

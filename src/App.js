@@ -15,12 +15,18 @@ class App extends Component {
   };
 
   //Update books state based on the option value of the option that's been clicked on
-  changeShelf = (shelf, book) => {
-    this.setState(state => ({
-      newShelf: (book.shelf = shelf.trim())
-    }));
-    BooksAPI.update(shelf, book).then(() => {
-      console.log(book, shelf);
+  changeShelf = (shelf, newBook, books) => {
+    newBook.shelf = shelf.trim();
+
+    var updatedBooks = this.state.books;
+
+    // Check if the book already exists in the list and add if not
+    updatedBooks.includes(newBook) || updatedBooks.push(newBook);
+    console.log(updatedBooks);
+
+    BooksAPI.update(shelf, newBook).then(() => {
+      this.setState({ books: updatedBooks });
+      console.log(newBook, shelf);
     });
   };
 
@@ -53,7 +59,7 @@ class App extends Component {
           path="/"
           render={() => (
             <ListShelves
-              allBooks={this.state.books}
+              books={this.state.books}
               newShelf={this.state.newShelf}
               onChangeShelf={this.changeShelf}
               onOpenSearch={this.openSearch}
