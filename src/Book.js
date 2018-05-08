@@ -5,6 +5,7 @@ class Book extends Component {
   state = {};
   render() {
     const { book, shelf, books, onChangeShelf } = this.props;
+    console.log(shelf);
     return (
       <div className="book">
         <div className="book-top">
@@ -15,8 +16,8 @@ class Book extends Component {
             />
           )}
           <div className="book-shelf-changer">
-            <select value={shelf} onChange={event => onChangeShelf(event.target.value, book, books)}>
-              <option value="none" disabled>
+            <select value={shelf || 'none'} onChange={event => onChangeShelf(event.target.value, book, books)}>
+              <option value="" disabled>
                 Move to...
               </option>
               <option value="currentlyReading">Currently Reading</option>

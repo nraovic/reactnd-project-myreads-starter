@@ -10,7 +10,6 @@ BooksAPI.getAll().then(books => console.log(books));
 class App extends Component {
   state = {
     books: [],
-    newShelf: '',
     showSearchPage: false
   };
 
@@ -23,7 +22,7 @@ class App extends Component {
     // Check if the book already exists in the list and add it if doesn't
     updatedBooks.includes(newBook) || updatedBooks.push(newBook);
     console.log(updatedBooks);
-    
+
     //Check if the chosen shelf is 'None' to remove it from the list
     newBook.shelf === 'None'.toLowerCase() &&
       (updatedBooks = updatedBooks.filter(book => book.shelf !== 'None'.toLowerCase()));
@@ -34,10 +33,6 @@ class App extends Component {
     });
   };
 
-  openSearch = () => {
-    this.setState(() => ({ showSearchPage: true }));
-    console.log('Ura');
-  };
   componentDidMount() {
     BooksAPI.getAll().then(books => {
       this.setState({ books: books });
@@ -49,25 +44,13 @@ class App extends Component {
         <Route
           exact
           path="/search"
-          render={() => (
-            <ShowSearchResults
-              showSearchPage={this.state.showSearchPage}
-              books={this.state.books}
-              newShelf={this.state.newShelf}
-              onChangeShelf={this.changeShelf}
-            />
-          )}
+          render={() => <ShowSearchResults books={this.state.books} onChangeShelf={this.changeShelf} />}
         />
         <Route
           exact
           path="/"
           render={() => (
-            <ListShelves
-              books={this.state.books}
-              newShelf={this.state.newShelf}
-              onChangeShelf={this.changeShelf}
-              onOpenSearch={this.openSearch}
-            />
+            <ListShelves books={this.state.books} onChangeShelf={this.changeShelf} onOpenSearch={this.openSearch} />
           )}
         />
       </div>
