@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 
 class Book extends Component {
-  state = {};
   render() {
     const { book, shelf, books, onChangeShelf } = this.props;
     console.log(shelf);
@@ -33,4 +33,10 @@ class Book extends Component {
     );
   }
 }
+
+Books.PropTypes = {
+  books: PropTypes.array.isRequired,
+  book: PropTypes.object.isRequired,
+  onChangeShelf: PropTypes.func.isRequired
+};
 export default Book;

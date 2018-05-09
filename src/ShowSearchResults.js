@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import Book from './Book.js';
@@ -60,5 +61,8 @@ class ShowSearchResults extends Component {
     );
   }
 }
-
+ShowSearchResults.PropTypes = {
+  books: PropTypes.array.isRequired,
+  onChangeShelf: PropTypes.func.isRequired
+};
 export default ShowSearchResults;
