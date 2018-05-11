@@ -5,18 +5,22 @@ import * as BooksAPI from './BooksAPI';
 import Book from './Book.js';
 
 class ShowSearchResults extends Component {
+  static PropTypes = {
+    books: PropTypes.array.isRequired,
+    onChangeShelf: PropTypes.func.isRequired
+  };
   state = {
     query: '',
     results: [],
     searchError: false
   };
 
+  // Get a list of books for every new query or the error message for an empty search result
   updateQuery = event => {
-    const query = event.target.value.trim();
+    const query = event.target.value;
     this.setState({
       query: query
     });
-    console.log(query);
     if (query.length > 0) {
       BooksAPI.search(query).then(results => {
         this.setState({ results: results, searchError: results.hasOwnProperty('error') });
@@ -25,8 +29,7 @@ class ShowSearchResults extends Component {
     }
   };
   render() {
-    const onChangeShelf = this.props.onChangeShelf;
-    const books = this.props.books;
+    const { onChangeShelf, books } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -61,8 +64,5 @@ class ShowSearchResults extends Component {
     );
   }
 }
-ShowSearchResults.PropTypes = {
-  books: PropTypes.array.isRequired,
-  onChangeShelf: PropTypes.func.isRequired
-};
+
 export default ShowSearchResults;

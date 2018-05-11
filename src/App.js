@@ -19,15 +19,14 @@ class App extends Component {
 
     var updatedBooks = this.state.books;
 
-    // Check if the book already exists in the list and add it if doesn't
-    updatedBooks.includes(newBook) || updatedBooks.push(newBook);
+    // Remove a book with the same id if alredy in books
+    updatedBooks = updatedBooks.filter(book => book.id !== newBook.id);
+
+    //Add a new book to the list unless its shelf is 'none'
+    newBook.shelf !== 'none' && updatedBooks.push(newBook);
     console.log(updatedBooks);
 
-    //Check if the chosen shelf is 'None' to remove it from the list
-    newBook.shelf === 'None'.toLowerCase() &&
-      (updatedBooks = updatedBooks.filter(book => book.shelf !== 'None'.toLowerCase()));
-
-    BooksAPI.update(shelf, newBook).then(() => {
+    BooksAPI.update(newBook, shelf).then(() => {
       this.setState({ books: updatedBooks });
       console.log(newBook, shelf);
     });
