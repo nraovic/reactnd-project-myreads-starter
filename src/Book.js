@@ -10,7 +10,9 @@ class Book extends Component {
   };
   render() {
     const { book, shelf, books, onChangeShelf } = this.props;
-    // Fallback for the non-existing imageLinks property
+    {
+      /* Fallback for the non-existing imageLinks property */
+    }
     let bookImageUrl = book.imageLinks ? `url(${book.imageLinks.thumbnail})` : '';
     console.log(shelf);
     return (
@@ -24,13 +26,13 @@ class Book extends Component {
                 Move to...
               </option>
               <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
               <option value="read">Read</option>
+              <option value="wantToRead">Want to Read</option>
               <option value="none">None</option>
             </select>
           </div>
         </div>
-        // Fallback for the non-existing book title
+        {/* Fallback for the non-existing book title */}
         <div className="book-title">{book.title ? book.title : 'No Title Available'}</div>
         <div className="book-authors">{book.authors}</div>
       </div>
