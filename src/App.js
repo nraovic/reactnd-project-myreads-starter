@@ -24,11 +24,9 @@ class App extends Component {
 
     //Add a new book to the list unless its shelf is 'none'
     newBook.shelf !== 'none' && updatedBooks.push(newBook);
-    console.log(updatedBooks);
 
     BooksAPI.update(newBook, shelf).then(() => {
       this.setState({ books: updatedBooks });
-      console.log(newBook, shelf);
     });
   };
 

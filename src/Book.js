@@ -14,7 +14,6 @@ class Book extends Component {
       /* Fallback for the non-existing imageLinks property */
     }
     let bookImageUrl = book.imageLinks ? `url(${book.imageLinks.thumbnail})` : '';
-    console.log(shelf);
     return (
       <div className="book">
         <div className="book-top">

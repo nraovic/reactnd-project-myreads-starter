@@ -19,12 +19,12 @@ class ShowSearchResults extends Component {
   updateQuery = event => {
     const query = event.target.value;
     this.setState({
-      query: query
+      query: query,
+      results: []
     });
     if (query.length > 0) {
       BooksAPI.search(query).then(results => {
         this.setState({ results: results, searchError: results.hasOwnProperty('error') });
-        console.log(results, this.state.searchError);
       });
     }
   };
