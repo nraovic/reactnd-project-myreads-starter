@@ -5,8 +5,6 @@ import './App.css';
 import ListShelves from './ListShelves';
 import ShowSearchResults from './ShowSearchResults';
 
-BooksAPI.getAll().then(books => console.log(books));
-
 class App extends Component {
   state = {
     books: [],
@@ -32,7 +30,7 @@ class App extends Component {
 
   componentDidMount() {
     BooksAPI.getAll().then(books => {
-      this.setState({ books: books });
+      this.setState({ books });
     });
   }
   render() {
