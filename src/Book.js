@@ -10,9 +10,7 @@ class Book extends Component {
   };
   render() {
     const { book, shelf, books, onChangeShelf } = this.props;
-    {
-      /* Fallback for the non-existing imageLinks property */
-    }
+    /* Fallback for the non-existing imageLinks property */
     let bookImageUrl = book.imageLinks ? `url(${book.imageLinks.thumbnail})` : '';
     return (
       <div className="book">
