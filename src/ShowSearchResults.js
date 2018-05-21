@@ -28,6 +28,7 @@ class ShowSearchResults extends Component {
       });
     }
   };
+
   render() {
     const { onChangeShelf, books } = this.props;
     return (
@@ -50,7 +51,17 @@ class ShowSearchResults extends Component {
             {this.state.results.length > 0 &&
               this.state.results.map(result => (
                 <li key={result.id}>
-                  <Book books={books} book={result} shelf={result.shelf} onChangeShelf={onChangeShelf} />
+                  {/* For the shelf prop check if the book is already listed on a shelf and update its shelf*/}
+                  <Book
+                    books={books}
+                    book={result}
+                    shelf={
+                      books.find(book => book.id === result.id)
+                        ? books.find(book => book.id === result.id).shelf
+                        : result.shelf
+                    }
+                    onChangeShelf={onChangeShelf}
+                  />
                 </li>
               ))}
             {this.state.searchError && (
