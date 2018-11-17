@@ -1,6 +1,8 @@
 {
+  "homepage": "https://nraovic.github.io/reactnd-project-myreads-starter/",
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
+    "gh-pages": "^2.0.1",
     "localstorage": "^1.0.1",
     "object-path": "^0.11.4",
     "prop-types": "^15.6.1",
@@ -13,6 +15,8 @@
     "react-scripts": "0.9.5"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
